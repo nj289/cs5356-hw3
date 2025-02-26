@@ -34,9 +34,26 @@ section {
     text-align: center;
 }
 
-img {
-    max-width: 50%;
-    height: auto
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.image-container img {
+    max-width: 60%;
+    height: auto;
+}
+
+.image-container::after {
+    content: "AI-generated image";
+    position: absolute;
+    bottom: 0%;
+    right: 20%;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
 }
 
 .boxes {
