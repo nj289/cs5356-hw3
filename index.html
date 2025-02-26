@@ -11,7 +11,7 @@
     </header>
     <main>
         <section>
-            <h3>This is a website about technical tools for enforcing Trust and Safety policies in digital spaces. </h3>
+            <h3>This is a website about frameworks and tools for enforcing Trust and Safety policies in digital spaces. </h3>
             <figure>
                 <img src="ts.png" alt="Trust & Safety Image">
             </figure>
@@ -55,6 +55,59 @@
             </details>
             </div>
         </section>
+
+        <section class="profanity-checker">
+            <h3>Test a Trust & Safety tool for yourself. This profanity checker automatically censors any profane words that it detects. Such tools
+                may be useful for digital spaces intended for professional use or children's use.
+            </h3>
+            <input type="text" id="userInput" placeholder="Enter text to check for profanity">
+            <button onclick="checkProfanity()">Check</button>
+            <p id="result"></p>
+            </input>
+        </section>
+
+        <script> // used chatGPT for assistance on this complex script function writing
+            function checkProfanity() {
+                const userText = document.getElementById("userInput").value;
+                const apiUrl = `https://www.purgomalum.com/service/json?text=${encodeURIComponent(userText)}`;
+        
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.result) {
+                            if (data.result === userText) {
+                                document.getElementById("result").textContent = "No profanity found.";
+                            } else {
+                                document.getElementById("result").textContent = `Filtered text: ${partiallyCensor(userText, data.result)}`;
+                            }
+                        } else {
+                            document.getElementById("result").textContent = "Error: Invalid response from API.";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching data:", error);
+                        document.getElementById("result").textContent = "Error fetching profanity check.";
+                    });
+            }
+        
+            function partiallyCensor(original, filtered) {
+                let originalWords = original.split(" ");
+                let filteredWords = filtered.split(" ");
+        
+                return filteredWords.map((word, index) => {
+                    if (word !== originalWords[index]) {
+                        return censorWord(originalWords[index]);
+                    }
+                    return word;
+                }).join(" ");
+            }
+        
+            function censorWord(word) {
+                if (word.length <= 2) return word;
+                return word[0] + "*".repeat(word.length - 2) + word[word.length - 1];
+            }
+        </script>
+
     </main>
     <footer>
         <p>&#169; 2025 Trust & Safety Basics </p>
